@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.3</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.example</groupId>
+    <artifactId>yaml2xsd</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>yaml2xsd</name>
+    <description>Demo project for Spring Boot</description>
+    <properties>
+        <java.version>11</java.version>
+        <openapi-generator-maven-plugin.version>4.3.0</openapi-generator-maven-plugin.version>
+        <openapi-generator.root.package>com.example.yaml2xsd</openapi-generator.root.package>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.13.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.0.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi-generator-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/example.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <output>target/generated-sources</output>
+                            <generateApis>true</generateApis>
+                            <generateModels>true</generateModels>
+                            <generateSupportingFiles>true</generateSupportingFiles>
+                            <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
+                            <generateApiDocumentation>true</generateApiDocumentation>
+                            <typeMappings>
+                                <typeMapping>OffsetDate=LocalDate</typeMapping>
+                                <typeMapping>OffsetDateTime=LocalDateTime</typeMapping>
+                            </typeMappings>
+                            <importMappings>
+                                <importMapping>java.time.OffsetDate=java.time.LocalDate</importMapping>
+                                <importMapping>java.time.OffsetDateTime=java.time.LocalDateTime</importMapping>
+                            </importMappings>
+                            <configOptions>
+                                <sourceFolder>openapi-generator</sourceFolder>
+                                <interfaceOnly>true</interfaceOnly>
+                                <useBeanValidation>true</useBeanValidation>
+                                <dateLibrary>java8</dateLibrary>
+                                <serializableModel>true</serializableModel>
+                                <useTags>true</useTags>
+                            </configOptions>
+                            <modelPackage>${openapi-generator.root.package}.model</modelPackage>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- XSD schema generator from swagger api description -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>2.5.0</version>
+                <configuration>
+                    <sources>
+                        <source>target/generated-sources/openapi-generator/com/example/yaml2xsd/model</source>
+                    </sources>
+                    <outputDirectory>target/xsd</outputDirectory>
+                    <verbose>false</verbose>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

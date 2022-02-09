@@ -1,0 +1,776 @@
+openapi: 3.0.1
+info:
+  title: API Reference
+  version: 1.0.0
+servers:
+  - url: //localhost:8080/
+tags:
+  - name: Order
+    description: Order Controller
+  - name: Products
+    description: Product Controller
+  - name: Employee
+    description: Employee Controller
+  - name: Customers
+    description: Customer Controller
+paths:
+  /nw/Employees/{employeeId}:
+    delete:
+      tags:
+        - Employee
+      summary: Delete a Employee
+      operationId: deleteEmployeeUsingDELETE
+      parameters:
+        - name: employeeId
+          in: path
+          description: employeeId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationResponse'
+  /nw/customers:
+    get:
+      tags:
+        - Customers
+      summary: List of customers
+      operationId: getCustomersByPageUsingGET
+      parameters:
+        - name: page
+          in: query
+          description: page
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: size
+          in: query
+          description: between 1 to 1000
+          schema:
+            type: integer
+            format: int32
+            default: 20
+        - name: customerid
+          in: query
+          description: customerid
+          schema:
+            type: integer
+            format: int32
+        - name: company
+          in: query
+          description: company
+          schema:
+            type: string
+        - name: country
+          in: query
+          description: country
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+    post:
+      tags:
+        - Customers
+      summary: Add new customer
+      operationId: addNewCustomerUsingPOST
+      requestBody:
+        description: customer
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationResponse'
+      x-codegen-request-body-name: customer
+  /nw/customers/{customerId}:
+    delete:
+      tags:
+        - Customers
+      summary: Delete a customer
+      operationId: deleteCustomerUsingDELETE
+      parameters:
+        - name: customerId
+          in: path
+          description: customerId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationResponse'
+  /nw/employees:
+    get:
+      tags:
+        - Employee
+      summary: List of employees
+      operationId: getEmployeesByPageUsingGET
+      parameters:
+        - name: page
+          in: query
+          description: page
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: size
+          in: query
+          description: between 1 to 1000
+          schema:
+            type: integer
+            format: int32
+            default: 20
+        - name: employeeid
+          in: query
+          description: employeeid
+          schema:
+            type: integer
+            format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeResponse'
+    post:
+      tags:
+        - Employee
+      summary: Add new employee
+      operationId: addNewEmployeeUsingPOST
+      requestBody:
+        description: employee
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationResponse'
+      x-codegen-request-body-name: employee
+  /nw/order-details:
+    get:
+      tags:
+        - Order
+      summary: Order Details
+      operationId: getOrderDetailUsingGET
+      parameters:
+        - name: orderid
+          in: query
+          description: orderid
+          schema:
+            type: integer
+            format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderDetailResponse'
+  /nw/orders:
+    get:
+      tags:
+        - Order
+      summary: List of orders
+      operationId: getOrdersByPageUsingGET
+      parameters:
+        - name: page
+          in: query
+          description: page
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: size
+          in: query
+          description: between 1 to 1000
+          schema:
+            type: integer
+            format: int32
+            default: 20
+        - name: orderid
+          in: query
+          description: orderid
+          schema:
+            type: integer
+            format: int32
+        - name: customerid
+          in: query
+          description: customerid
+          schema:
+            type: integer
+            format: int32
+        - name: employeeid
+          in: query
+          description: employeeid
+          schema:
+            type: integer
+            format: int32
+        - name: status
+          in: query
+          description: status
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+  /nw/orders-by-status:
+    get:
+      tags:
+        - Order
+      summary: Orders by status
+      operationId: getOrdersByStatusUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrdersByStatusResponse'
+  /nw/products:
+    get:
+      tags:
+        - Products
+      summary: List of products
+      operationId: getProductsByPageUsingGET
+      parameters:
+        - name: page
+          in: query
+          description: page
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: size
+          in: query
+          description: between 1 to 1000
+          schema:
+            type: integer
+            format: int32
+            default: 20
+        - name: productid
+          in: query
+          description: productid
+          schema:
+            type: integer
+            format: int32
+        - name: category
+          in: query
+          description: category
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+    post:
+      tags:
+        - Products
+      summary: Add new product
+      operationId: addNewProductUsingPOST
+      requestBody:
+        description: product
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationResponse'
+      x-codegen-request-body-name: product
+  /nw/products/{productId}:
+    delete:
+      tags:
+        - Products
+      summary: Delete a product
+      operationId: deleteProductUsingDELETE
+      parameters:
+        - name: productId
+          in: path
+          description: productId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationResponse'
+
+components:
+  schemas:
+    Order:
+      type: object
+      properties:
+        customerId:
+          type: integer
+          format: int32
+        employeeId:
+          type: integer
+          format: int32
+        id:
+          type: integer
+          format: int32
+        orderDate:
+          type: string
+        orderStatus:
+          type: string
+          enum:
+            - On Hold
+            - Shipped
+            - Complete
+            - New
+        paidDate:
+          type: string
+        paymentType:
+          type: string
+          enum:
+            - Check
+            - Cash
+            - Card
+        shipAddress1:
+          type: string
+        shipAddress2:
+          type: string
+        shipCity:
+          type: string
+        shipCountry:
+          type: string
+        shipName:
+          type: string
+        shipPostalCode:
+          type: string
+        shipState:
+          type: string
+        shippedDate:
+          type: string
+        shippingFee:
+          type: number
+    OrdersByStatus:
+      type: object
+      properties:
+        complete:
+          type: integer
+          format: int64
+        newStatus:
+          type: integer
+          format: int64
+        onHold:
+          type: integer
+          format: int64
+        shipped:
+          type: integer
+          format: int64
+    Customer:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        company:
+          type: string
+        country:
+          type: string
+        email:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int32
+        lastName:
+          type: string
+        phone:
+          type: string
+        postalCode:
+          type: string
+        state:
+          type: string
+    Product:
+      type: object
+      properties:
+        category:
+          type: string
+          enum:
+            - Camera
+            - Laptop
+            - Tablet
+            - Phone
+        description:
+          type: string
+        discontinued:
+          type: integer
+          format: int32
+        id:
+          type: integer
+          format: int32
+        listPrice:
+          type: integer
+          format: int64
+        minimumReorderQuantity:
+          type: integer
+          format: int32
+        productCode:
+          type: string
+        productName:
+          type: string
+        quantityPerUnit:
+          type: string
+        reorderLevel:
+          type: integer
+          format: int32
+        standardCost:
+          type: integer
+          format: int64
+        targetLevel:
+          type: integer
+          format: int32
+    OrderResponse:
+      required:
+        - items
+        - operationStatus
+      type: object
+      properties:
+        currentPageNumber:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Order'
+        itemsInPage:
+          type: integer
+          format: int32
+        last:
+          type: boolean
+        operationMessage:
+          type: string
+
+        pageSize:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/Sort'
+        totalItems:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+    OrdersByStatusResponse:
+      required:
+        - content
+        - operationStatus
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/OrdersByStatus'
+        operationMessage:
+          type: string
+    OrderDetail:
+      type: object
+      properties:
+        company:
+          type: string
+        customerEmail:
+          type: string
+        customerFirstName:
+          type: string
+        customerId:
+          type: integer
+          format: int32
+        customerLastName:
+          type: string
+        employeeId:
+          type: integer
+          format: int32
+        id:
+          type: integer
+          format: int32
+        orderDate:
+          type: string
+        orderLine:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderLine'
+        paidDate:
+          type: string
+        shipAddress1:
+          type: string
+        shipAddress2:
+          type: string
+        shipCity:
+          type: string
+        shipCountry:
+          type: string
+        shipName:
+          type: string
+        shipPostalCode:
+          type: string
+        shipState:
+          type: string
+        shippedDate:
+          type: string
+        shippingFee:
+          type: number
+    Employee:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        avatar:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        department:
+          type: string
+        email:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int32
+        jobTitle:
+          type: string
+        lastName:
+          type: string
+        managerId:
+          type: integer
+          format: int32
+        phone:
+          type: string
+        postalCode:
+          type: string
+        state:
+          type: string
+    OrderLine:
+      type: object
+      properties:
+        category:
+          type: string
+        dateAllocated:
+          type: string
+        discount:
+          type: number
+        orderItemStatus:
+          type: string
+          enum:
+            - On Order
+            - Allocated
+            - No Stock
+        productCode:
+          type: string
+        productId:
+          type: integer
+          format: int32
+        productName:
+          type: string
+        quantity:
+          type: number
+        unitPrice:
+          type: number
+    OrderDetailResponse:
+      required:
+        - items
+        - operationStatus
+      type: object
+      properties:
+        currentPageNumber:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderDetail'
+        itemsInPage:
+          type: integer
+          format: int32
+        last:
+          type: boolean
+        operationMessage:
+          type: string
+        pageSize:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/Sort'
+        totalItems:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+    Sort:
+      type: object
+    EmployeeResponse:
+      required:
+        - items
+        - operationStatus
+      type: object
+      properties:
+        currentPageNumber:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Employee'
+        itemsInPage:
+          type: integer
+          format: int32
+        last:
+          type: boolean
+        operationMessage:
+          type: string
+        pageSize:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/Sort'
+        totalItems:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+    ProductResponse:
+      required:
+        - items
+        - operationStatus
+      type: object
+      properties:
+        currentPageNumber:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        itemsInPage:
+          type: integer
+          format: int32
+        last:
+          type: boolean
+        operationMessage:
+          type: string
+        operationStatus:
+          type: string
+          enum:
+            - SUCCESS
+            - ERROR
+            - WARNING
+            - NO_ACCESS
+        pageSize:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/Sort'
+        totalItems:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+    OperationResponse:
+      required:
+        - operationStatus
+      type: object
+      properties:
+        operationMessage:
+          type: string
+    CustomerResponse:
+      required:
+        - items
+        - operationStatus
+      type: object
+      properties:
+        currentPageNumber:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer'
+        itemsInPage:
+          type: integer
+          format: int32
+        last:
+          type: boolean
+        operationMessage:
+          type: string
+        pageSize:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/Sort'
+        totalItems:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      name: Authorization
+      in: header
